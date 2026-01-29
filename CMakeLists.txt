@@ -1,21 +1,22 @@
 cmake_minimum_required(VERSION 3.10)
-project(lab2)
+project(ParallelComputingAlgorithm)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Threads REQUIRED)
-
-set(SOURCES
+add_executable(ParallelComputingAlgorithm
         main.cpp
+        ThreadPool.cpp
 )
 
-add_executable(lab2 ${SOURCES})
+target_include_directories(ParallelComputingAlgorithm PRIVATE .)
 
-target_link_libraries(lab2 Threads::Threads)
+set(TXT_FILES
+        file_test_1.txt
+        file_test_2.txt
+        file_test_3.txt
+)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    target_compile_options(lab2 PRIVATE -O2)
-endif()
-
-message(STATUS "C++ standard: ${CMAKE_CXX_STANDARD}")
-message(STATUS "Compiler: ${CMAKE_CXX_COMPILER}")
+foreach(txt_file ${TXT_FILES})
+    configure_file(${txt_file} ${CMAKE_CURRENT_BINARY_DIR}/${txt_file} COPYONLY)
+endforeach()
